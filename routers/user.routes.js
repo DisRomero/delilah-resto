@@ -1,17 +1,17 @@
 const express = require('express');
-const { validationResult } = require('express-validator');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 const validator = require('../validator/validator');
+const middleware = require('../middleware/middleware');
 
 //register-createUser
-router.post('/register', validator.validateInfo,userController.register);
+router.post('/register', validator.registerInputs,userController.register);
 
 //login
-router.post('/login', userController.login);
+router.post('/login', validator.loginInputs, userController.login);
 
 // //read - getAllUser
-// router.get('/all', userController.getAllUser);
+router.get('/all', middleware.validarTokenAdmin, userController.allUser);
 
 // //read by id -searchUserByID
 // router.post('/searchByID', userController.searchUserByID);

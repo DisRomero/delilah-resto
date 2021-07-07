@@ -1,6 +1,6 @@
-const { validationResult, check } = require('express-validator');//router
+const { validationResult, check } = require('express-validator');
 
-const validateInfo = [
+const registerInputs = [
     check('nombre')
         .isLength({ min:10 })
         .withMessage('El nombre debe tener mas de 10 caracteres'),
@@ -20,13 +20,32 @@ const validateInfo = [
         if(!errors.isEmpty()){
             return res.status(422).json({
                 errors: errors.array(), 
-                msg: 'error en el validator'
+                msg: 'error en el validador del registro de usuario'
             });
         }
         next();
     }
-]
+];
+
+const loginInputs = [
+    check('correo')
+        .isEmail()
+        .withMessage('Error en el campo correo'),
+    check('contrasenia')
+        .isLength({min:10, max:10})
+        .withMessage('Error en el campo contrasenia'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({
+                errors: errors.array(), 
+                msg: 'error en el validador del login'
+            });
+        }
+        next();
+    }
+];
 
 module.exports = {
-    validateInfo
+    registerInputs, loginInputs
 };

@@ -1,23 +1,13 @@
-//const SECRET = "s3c4et0";//dotenv
-//const EXPIRES = '1h';//dotenv
-//git ignore - node modules - express - git rm nombreCarpeta, commit
 const sequelize = require('../conexion');
 const jwt = require('jsonwebtoken');
-require('dotenv').config()//
+require('dotenv').config()
 const SECRET = process.env.LANG
 const EXPIRES = process.env.EXPIRES
 
-//create - post
 const register = async (req, res) => {
     const { nombre, correo, telefono, direccion, contrasenia } =req.body;
-    
-//validacion de campos - 
 
     try{
-        // if( contrasenia.length>10 ){
-        //     return res.status(400).json({msg: 'El tamanio de la contrasenia no es valido'});
-        // }
-
         const result = await sequelize.query(
             `INSERT INTO usuario(nombre, correo, telefono, direccion, contrasenia, ID_tipo_de_usuario) 
             VALUES('${nombre}', '${correo}', '${telefono}', '${direccion}', '${contrasenia}', 1)`,
@@ -27,19 +17,14 @@ const register = async (req, res) => {
 
     } catch(error){
         console.log(`Error en la creacion del usuario ${error}`);
-        res.status(400).json({msg:'Ups, se ha ocasionado un error'});
+        res.status(400).json({msg:'Ups, se ha ocasionado un error en el registro de un usuario'});
     }
 };
 
-//login
 const login = async (req, res) => {
     const { correo, contrasenia } =req.body;
     
-    try{
-        if( contrasenia.length<=1 ){
-            return res.status(400).json({msg: 'La contrasenia es obligatorio'});
-        }
-
+    try{       
         let result = await sequelize.query(
             `SELECT * FROM usuario WHERE correo="${correo}" AND contrasenia="${contrasenia}"`,
         { type: sequelize.QueryTypes.SELECT })
@@ -53,10 +38,33 @@ const login = async (req, res) => {
         
     } catch(error){
         console.log(`Error en el login ${error}`);
-        res.status(400).json({msg:'Ups, se ha ocasionado un error'});
+        res.status(400).json({msg:'Ups, se ha ocasionado un error iniciando sesion'});
     }
-    };
+};
+
+// //read - getAllUser
+// router.get('/all', userController.getAllUser);
+const allUser = async (req, res) => {
+    try{
+        const result = await sequelize.query(
+            `SELECT * FROM usuario`,
+            { type: sequelize.QueryTypes.SELECT });
+            res.status(200).json({ body: result, msg:'Lista de usuarios desplegada' });
+    } catch(error){
+        console.log(`Error en la visualizacion de todos los usuarios ${error}`);
+        res.status(400).json({ msg:'Ups, se ha ocasionado un error en la visualizacion de los usuarios'});
+    }
+};
+
+// //read by id -searchUserByID
+// router.post('/searchByID', userController.searchUserByID);
+
+// //update - updateUser
+// router.put('/update', userController.updateUser);
+
+// //delete - deleteUser
+// router.delete('/delete', userController.deleteUser);
 
 module.exports = {
-    register, login
+    register, login, allUser
 };
