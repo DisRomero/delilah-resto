@@ -13,7 +13,7 @@ const registerInputs = [
         .isLength({ min:7})
         .withMessage('El telefono debe de tener mas de 8 digitos'),
     check('contrasenia')
-        .isLength({min:10, max:10})
+        .isLength({ min:10, max:10 })
         .withMessage('La contrasenia debe ser de 10 caracteres'),
     (req, res, next) => {
         const errors = validationResult(req);
@@ -32,7 +32,7 @@ const loginInputs = [
         .isEmail()
         .withMessage('Error en el campo correo'),
     check('contrasenia')
-        .isLength({min:10, max:10})
+        .isLength({ min:10, max:10 })
         .withMessage('Error en el campo contrasenia'),
     (req, res, next) => {
         const errors = validationResult(req);
@@ -46,6 +46,25 @@ const loginInputs = [
     }
 ];
 
+const updateUserName = [
+    check('ID_usuario')
+        .isLength({ min:1 })
+        .withMessage('Error en el campo ID_usuario'),
+    check('nombre')
+        .isLength({ max:255 })
+        .withMessage('Error en el campo nombre'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({
+                errors: errors.array(), 
+                msg: 'error en el validador de la modificacion del usuario'
+            });
+        }
+        next();
+    }
+];
+
 module.exports = {
-    registerInputs, loginInputs
+    registerInputs, loginInputs, updateUserName
 };

@@ -32,7 +32,7 @@ const login = async (req, res) => {
 
         if(result){
             let token = jwt.sign({ correo: result.correo, tipo_usuario: result.ID_tipo_de_usuario }, SECRET,{ expiresIn: EXPIRES });
-            return res.status(201).json({msg:'Login exitoso', token:token});
+            return res.status(200).json({msg:'Login exitoso', token:token});
         }
         return res.status(404).json({msg: 'Usuario no encontrado'});
         
@@ -43,7 +43,6 @@ const login = async (req, res) => {
 };
 
 // //read - getAllUser
-// router.get('/all', userController.getAllUser);
 const allUser = async (req, res) => {
     try{
         const result = await sequelize.query(
@@ -56,15 +55,25 @@ const allUser = async (req, res) => {
     }
 };
 
-// //read by id -searchUserByID
-// router.post('/searchByID', userController.searchUserByID);
-
-// //update - updateUser
-// router.put('/update', userController.updateUser);
+// //update - updateUserNameByID
+const editUser = async (req, res) => {
+    const {ID_usuario, nombre} = req.body;
+    try{
+        const result = await sequelize.query(
+            `UPDATE usuario
+            set nombre = '${nombre}'
+            where ID_usuario = ${ID_usuario};`,
+            { type: sequelize.QueryTypes.UPDATE });
+            res.status(200).json({ body: result, msg:'Usuario modificado con exito' });
+    } catch(error){
+        console.log(`Error en la modificacion del usuario ${error}`);
+        res.status(400).json({ msg:'Ups, se ha ocasionado un error en la modificacion del usuario'});
+    }
+};
 
 // //delete - deleteUser
 // router.delete('/delete', userController.deleteUser);
 
 module.exports = {
-    register, login, allUser
+    register, login, allUser, editUser
 };

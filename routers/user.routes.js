@@ -13,11 +13,8 @@ router.post('/login', validator.loginInputs, userController.login);
 // //read - getAllUser
 router.get('/all', middleware.validarTokenAdmin, userController.allUser);
 
-// //read by id -searchUserByID
-// router.post('/searchByID', userController.searchUserByID);
-
-// //update - updateUser
-// router.put('/update', userController.updateUser);
+// //update - updateUser - editUser - validator.updateUserName
+router.put('/editName', middleware.validarTokenAdmin, validator.updateUserName, userController.editUser);
 
 // //delete - deleteUser
 // router.delete('/delete', userController.deleteUser);
