@@ -7,7 +7,7 @@ const sequelize = require('./conexion');
 
 //routers
 const userRouter = require('./routers/user.routes');
-const productRouter = require('./routers/product.route');
+const productRouter = require('./routers/product.routes');
 
 //middleware
 const app = express();
@@ -16,7 +16,6 @@ app.use(cors());
 app.use(express.json());
 
 //routes use
-//user - login - registro
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 

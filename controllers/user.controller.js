@@ -12,9 +12,7 @@ const register = async (req, res) => {
             `INSERT INTO usuario(nombre, correo, telefono, direccion, contrasenia, ID_tipo_de_usuario) 
             VALUES('${nombre}', '${correo}', '${telefono}', '${direccion}', '${contrasenia}', 1)`,
         { type: sequelize.QueryTypes.INSERT });
-
         res.status(201).json({msg:'Creacion de usuario exitosa'});
-
     } catch(error){
         console.log(`Error en la creacion del usuario ${error}`);
         res.status(400).json({msg:'Ups, se ha ocasionado un error en el registro de un usuario'});
@@ -29,7 +27,6 @@ const login = async (req, res) => {
             `SELECT * FROM usuario WHERE correo="${correo}" AND contrasenia="${contrasenia}"`,
         { type: sequelize.QueryTypes.SELECT })
         result=result[0];
-
         if(result){
             let token = jwt.sign({ correo: result.correo, tipo_usuario: result.ID_tipo_de_usuario }, SECRET,{ expiresIn: EXPIRES });
             return res.status(200).json({msg:'Login exitoso', token:token});
@@ -71,8 +68,7 @@ const editUser = async (req, res) => {
     }
 };
 
-// //delete - deleteUser
-// router.delete('/delete', userController.deleteUser);
+//deleteUserByID
 const deleteUser = async (req, res) => {
     const {ID_usuario} = req.body;
     try{
@@ -87,6 +83,50 @@ const deleteUser = async (req, res) => {
     }
 };
 
+// //read - getAllUserType
+const allUserType = async (req, res) => {
+    try{
+        const result = await sequelize.query(
+            `SELECT * FROM tipo_de_usuario`,
+            { type: sequelize.QueryTypes.SELECT });
+            res.status(200).json({ body: result, msg:'Lista de los tipos de usuarios desplegada' });
+    } catch(error){
+        console.log(`Error en la visualizacion de todos los tipos de usuarios ${error}`);
+        res.status(400).json({ msg:'Ups, se ha ocasionado un error en la visualizacion de los tipos de usuarios'});
+    }
+};
+
+// //update - updateUserTypeNameByID
+const editUserType = async (req, res) => {
+    const {ID_tipo_de_usuario, nombre} = req.body;
+    try{
+        const result = await sequelize.query(
+            `UPDATE tipo_de_usuario
+            set nombre = '${nombre}'
+            where ID_tipo_de_usuario = ${ID_tipo_de_usuario};`,
+            { type: sequelize.QueryTypes.UPDATE });
+            res.status(200).json({ body: result, msg:'Tipo de usuario modificado con exito' });
+    } catch(error){
+        console.log(`Error en la modificacion del tipo de usuario ${error}`);
+        res.status(400).json({ msg:'Ups, se ha ocasionado un error en la modificacion del tipo de usuario'});
+    }
+};
+
+//deleteUserTypeByID
+const deleteUserType = async (req, res) => {
+    const {ID_tipo_de_usuario} = req.body;
+    try{
+        const result = await sequelize.query(
+            `DELETE FROM tipo_de_usuario
+            where ID_tipo_de_usuario = ${ID_tipo_de_usuario};`,
+            { type: sequelize.QueryTypes.DELETE });
+            res.status(200).json({ body: result, msg:'Tipo de usuario eliminado con exito' });
+    } catch(error){
+        console.log(`Error en la eliminacion del tipo de usuario ${error}`);
+        res.status(400).json({ msg:'Ups, se ha ocasionado un error en la eliminacion del tipo de usuario'});
+    }
+};
+
 module.exports = {
-    register, login, allUser, editUser, deleteUser
+    register, login, allUser, editUser, deleteUser, allUserType, editUserType, deleteUserType
 };

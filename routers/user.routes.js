@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
-const validator = require('../validator/validator');
+const validator = require('../validator/userValidator');
 const middleware = require('../middleware/middleware');
 
-//register-createUser
+//register-createUserClient
 router.post('/register', validator.registerInputs,userController.register);
 
 //login
@@ -18,5 +18,14 @@ router.put('/editName', middleware.validarTokenAdmin, validator.updateUserName, 
 
 //delete - deleteUser
 router.delete('/delete', middleware.validarTokenAdmin, validator.deleteUser, userController.deleteUser);
+
+//read - getAllUserType
+router.get('/allUserType', middleware.validarTokenAdmin, userController.allUserType);
+
+//update  - editUserType
+router.put('/editUserTypeName', middleware.validarTokenAdmin, validator.updateUserTypeName, userController.editUserType);
+
+//delete - deleteUser
+router.delete('/deleteUserType', middleware.validarTokenAdmin, validator.deleteUserType, userController.deleteUserType);
 
 module.exports = router;

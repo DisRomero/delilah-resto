@@ -65,7 +65,7 @@ const updateUserName = [
     }
 ];
 
-const deleteUser =[
+const deleteUser = [
     check('ID_usuario')
         .isLength({ min:1 })
         .withMessage('Error en el campo ID_usuario'),
@@ -79,7 +79,43 @@ const deleteUser =[
         }
         next();
     }
-]
+];
+
+const updateUserTypeName = [
+    check('ID_tipo_de_usuario')
+        .isLength({ min:1 })
+        .withMessage('Error en el campo ID_tipo_de_usuario'),
+    check('nombre')
+        .isLength({ max:255 })
+        .withMessage('Error en el campo nombre'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({
+                errors: errors.array(), 
+                msg: 'error en el validador de la modificacion del tipo de usuario'
+            });
+        }
+        next();
+    }
+];
+
+const deleteUserType = [
+    check('ID_tipo_de_usuario')
+        .isLength({ min:1 })
+        .withMessage('Error en el campo ID_tipo_de_usuario'),
+    (req, res, next) => {
+        const errors =validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({
+                errors: errors.array(),
+                msg: 'error en el validador de la eliminacion del tipo de usuario'
+            });
+        }
+        next();
+    }
+];
+
 module.exports = {
-    registerInputs, loginInputs, updateUserName, deleteUser
+    registerInputs, loginInputs, updateUserName, deleteUser, updateUserTypeName, deleteUserType
 };
