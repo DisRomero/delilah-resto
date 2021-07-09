@@ -73,7 +73,20 @@ const editUser = async (req, res) => {
 
 // //delete - deleteUser
 // router.delete('/delete', userController.deleteUser);
+const deleteUser = async (req, res) => {
+    const {ID_usuario} = req.body;
+    try{
+        const result = await sequelize.query(
+            `DELETE FROM usuario
+            where ID_usuario = ${ID_usuario};`,
+            { type: sequelize.QueryTypes.DELETE });
+            res.status(200).json({ body: result, msg:'Usuario eliminado con exito' });
+    } catch(error){
+        console.log(`Error en la eliminacion del usuario ${error}`);
+        res.status(400).json({ msg:'Ups, se ha ocasionado un error en la eliminacion del usuario'});
+    }
+};
 
 module.exports = {
-    register, login, allUser, editUser
+    register, login, allUser, editUser, deleteUser
 };

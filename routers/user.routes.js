@@ -10,13 +10,13 @@ router.post('/register', validator.registerInputs,userController.register);
 //login
 router.post('/login', validator.loginInputs, userController.login);
 
-// //read - getAllUser
+//read - getAllUser
 router.get('/all', middleware.validarTokenAdmin, userController.allUser);
 
-// //update - updateUser - editUser - validator.updateUserName
+//update  - editUser
 router.put('/editName', middleware.validarTokenAdmin, validator.updateUserName, userController.editUser);
 
-// //delete - deleteUser
-// router.delete('/delete', userController.deleteUser);
+//delete - deleteUser
+router.delete('/delete', middleware.validarTokenAdmin, validator.deleteUser, userController.deleteUser);
 
 module.exports = router;

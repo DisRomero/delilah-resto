@@ -65,6 +65,21 @@ const updateUserName = [
     }
 ];
 
+const deleteUser =[
+    check('ID_usuario')
+        .isLength({ min:1 })
+        .withMessage('Error en el campo ID_usuario'),
+    (req, res, next) => {
+        const errors =validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({
+                errors: errors.array(),
+                msg: 'error en el validador de la eliminacion del usuario'
+            });
+        }
+        next();
+    }
+]
 module.exports = {
-    registerInputs, loginInputs, updateUserName
+    registerInputs, loginInputs, updateUserName, deleteUser
 };
