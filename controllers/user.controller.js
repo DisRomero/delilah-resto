@@ -27,6 +27,7 @@ const login = async (req, res) => {
             `SELECT * FROM usuario WHERE correo="${correo}" AND contrasenia="${contrasenia}"`,
         { type: sequelize.QueryTypes.SELECT })
         result=result[0];
+        
         if(result){
             let token = jwt.sign({ correo: result.correo, tipo_usuario: result.ID_tipo_de_usuario }, SECRET,{ expiresIn: EXPIRES });
             return res.status(200).json({msg:'Login exitoso', token:token});

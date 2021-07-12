@@ -43,9 +43,9 @@ const updateProduct = [
 const deleteProduct = [
     check('ID_producto')
         .isLength({ min:1 })
-        .withMessage('Error en el campo ID_producto')
-        .isNumeric()
-        .withMessage('El valor ID_producto no puede ser tipo texto'),
+        .withMessage('Error en el campo ID_producto es obligatorio')
+        .isInt()
+        .withMessage('Error el formato del campo ID_producto'),
     (req, res, next) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()){

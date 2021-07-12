@@ -9,7 +9,7 @@ const createProduct = async (req, res) => {
             `INSERT INTO producto(nombre, precio)VALUES('${nombre}', ${precio})`,
         { type: sequelize.QueryTypes.INSERT })
         res.status(201).json({
-            message: 'Producto creado exitosamente',
+            msg: 'Producto creado exitosamente',
             body:result});
     } catch(error){
         console.log(`Error en la creacion de un producto ${error}`)
