@@ -1,0 +1,641 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is the documentation of Delilah restp server.
+  version: "1.0.0"
+  title: Delilah resto API
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: http://localhost:3000
+tags:
+  - name: user
+    description: Operations about user
+  - name: product
+    description: Operations about product
+paths:
+  /user/register:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid information inserted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: Created user object
+        required: true
+  /user/login:
+    get:
+      tags:
+        - user
+      summary: Logs user into the system
+      operationId: loginUser
+      parameters:
+        - name: correo
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: contrasenia
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid username/password inserted
+  /user/all:
+    get:
+      tags:
+        - user
+      summary: All the user of the system
+      operationId: allUserByAdmin
+      parameters:
+        - name: correo
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: contrasenia
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: The user is not allowed
+      security:
+        - bearerAuth: []
+  "/user/editName/{userName}":
+    put:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Updated userName
+      description: This can only be done by Admin user.
+      operationId: updateUserByAdmin
+      parameters:
+        - name: userName
+          in: path
+          description: name that need to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid user supplied
+        "404":
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: Updated user object
+        required: true
+  "/user/delete/{userID}":
+    delete:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+        - name: userID
+          in: path
+          description: The userID that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+  /user/allUserType:
+    get:
+      tags:
+        - user
+      summary: All the user of the system
+      operationId: allUserTypeByAdmin
+      parameters:
+        - name: correo
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: contrasenia
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: The user is not allowed
+      security:
+        - bearerAuth: []
+  "/user/editUserTypeName/{userName}":
+    put:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Updated userTypeName
+      description: This can only be done by Admin user.
+      operationId: updateUserTypeByAdmin
+      parameters:
+        - name: userName
+          in: path
+          description: name that need to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid user supplied
+        "404":
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: Updated user object
+        required: true
+  "/user/deleteUserType/{userID}":
+    delete:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Delete userType
+      description: This can only be done by the logged in user.
+      operationId: deleteTypeUser
+      parameters:
+        - name: userID
+          in: path
+          description: The userID that needs to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+  /product/create:
+    post:
+      tags:
+        - product
+      security:
+        - bearerAuth: []
+      summary: Create product
+      description: This can only be done by Admin user.
+      operationId: createProduct
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid information inserted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        description: Created user object
+        required: true
+  /product/allProducts:
+    get:
+      tags:
+        - product
+      summary: All the user of the system
+      operationId: allProduct
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "500":
+          description: Some error happened, please try later
+      security:
+        - bearerAuth: []
+  "/product/editName/{productName}":
+    put:
+      tags:
+        - product
+      security:
+        - bearerAuth: []
+      summary: Updated product information
+      description: This can only be done by Admin user.
+      operationId: updateProductByAdmin
+      parameters:
+        - name: productName
+          in: path
+          description: name that need to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid product supplied
+        "404":
+          description: Product not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        description: Updated user object
+        required: true
+  "/product/delete/{productID}":
+    delete:
+      tags:
+        - product
+      security:
+        - bearerAuth: []
+      summary: Delete product
+      description: This can only be done by the logged in user.
+      operationId: deleteProduct
+      parameters:
+        - name: productID
+          in: path
+          description: The productID that needs to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid productID supplied
+        "404":
+          description: Product not found
+  /order/createStatus:
+    post:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      summary: Create orderStatus
+      description: This can only be done by Admin user.
+      operationId: createOrderStatus
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid information inserted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderStatus"
+        description: Created status object
+        required: true
+  /order/createPaymentMethod:
+    post:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      summary: Create PaymentMethod
+      description: This can only be done by Admin user.
+      operationId: createPaymentMethod
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid information inserted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderStatus"
+        description: Created paymethod object
+        required: true
+  /order/createOrder:
+    post:
+      tags:
+        - order
+      summary: Create createOrder
+      description: This can only be done by Admin user.
+      operationId: createOrder
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid information inserted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        description: Created order object
+        required: true
+  /order/allOrder:
+    get:
+      tags:
+        - order
+      summary: All the order of the system
+      operationId: allOrder
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "500":
+          description: Some error happened, please try later
+      security:
+        - bearerAuth: []
+  /order/allMyOrder:
+    get:
+      tags:
+        - order
+      summary: All my order created
+      operationId: allMyOrder
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "500":
+          description: Some error happened, please try later
+  "/order/editOrder/{orderID}":
+    put:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      summary: Updated order information
+      description: This can only be done by Admin user.
+      operationId: updateOrderByAdmin
+      parameters:
+        - name: orderID
+          in: path
+          description: name that need to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid order supplied
+        "404":
+          description: Product not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        description: Updated user object
+        required: true
+  "/order/deleteOrder/{orderID}":
+    delete:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      summary: Delete order
+      description: This can only be done by the logged in user.
+      operationId: deleteOrder
+      parameters:
+        - name: orderID
+          in: path
+          description: The orderID that needs to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid orderID supplied
+        "404":
+          description: Order not found
+externalDocs:
+  description: Find out more about Swagger
+  url: "http://swagger.io"
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        nombre:
+          type: string
+        correo:
+          type: string
+        telefono:
+          type: integer
+        direcion:
+          type: string
+        password:
+          type: string
+      xml:
+        name: User
+    Product:
+      type: object
+      properties:
+        nombre:
+          type: string
+        precio:
+          type: integer
+      xml:
+        name: Product
+    Order:
+      type: object
+      properties:
+        detail:
+          type: string
+        PaymentMethodID:
+          type: integer
+        ID_usuario:
+          type: integer
+        total:
+          type: integer
+        products:
+          type: integer
+      xml:
+        name: Order
+    OrderStatus:
+      type: object
+      properties:
+        nombre:
+          type: string
+      xml:
+        name: OrderStatus
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/User"
+      description: List of user object
+      required: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -42,17 +42,6 @@ const createOrder = async (req, res) => {
             VALUES('${detalle}', 1, ${ID_medio_de_pago}, now(), ${ID_usuario}, ${total})`,
             { type: sequelize.QueryTypes.INSERT })
             let [ orderID ] = result;//ID del pedido creado
-            // let valuesStr = ``;
-            // let lastValuesStr = ``;
-            // products.forEach(product => {
-            //     valuesStr = `(${orderID},${product}),`;
-            //     console.log('info de value ', valuesStr); 
-            //     if(products[products.length-1] === product){
-            //         console.log('info de value in if', valuesStr); 
-            //         console.log('info de lastvalue', valuesStr.slice(0, -1))           
-            //     }                   
-            // });
-            // console.log('info ', lastValuesStr);
             for await (const product of products){
                 const result = await sequelize.query(
                     `INSERT INTO pedido_con_producto(ID_pedido, ID_producto)
@@ -60,7 +49,7 @@ const createOrder = async (req, res) => {
                     { type: sequelize.QueryTypes.INSERT })
             }
         res.status(201).json({
-            msg: 'Pedio creado exitosamente',
+            msg: 'Pedido creado exitosamente',
             body: result
         });
     } catch(error){
